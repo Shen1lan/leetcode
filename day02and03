@@ -1,0 +1,44 @@
+day2的没保存，
+长度最小子数组好像差点做出来了，还有一点问题，滑动窗口也就是双指针的一种变体
+螺旋矩阵就人傻了，没思路，看了代码最后自己写还写了很久，【】【】第一个是纵坐标第二个横坐标，一直在改，range后面的数字也总是搞错
+
+
+day03
+好像没学过链表一样，完全陌生的感觉
+删除链表元素还好，不难，但好像要补很多基础知识
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def removeElements(self, head: Optional[ListNode], val: int) -> Optional[ListNode]:
+        dummy_head = ListNode(next = head)
+        current = dummy_head
+        while current.next:
+            if current.next.val == val:
+                current.next = current.next.next
+            else:
+                current = current.next
+        
+        return dummy_head.next
+
+虚拟头可以用来处理第一个节点的问题
+在最后插入值和按序列插入区别是最后current的后面要加current.next，否则链表会断
+if index < 0 or index > self.size:然后这里边界条件是可以等于的，也错了
+反转链表：
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        pre = None
+        cur = head
+        while cur:
+            tem = cur.next
+            cur.next = pre
+            pre = cur
+            cur = tem
+        return pre没太大问题，但是最后pre和cur互换的时候顺序错了，要先pre=cur，然后再cur换，否则输出空
