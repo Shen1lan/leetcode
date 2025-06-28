@@ -1,0 +1,61 @@
+一般涉及到 增删改操作，用虚拟头结点都会方便很多， 如果只能查的话，用不用虚拟头结点都差不多
+两两交换链表节点：想到了节点1用tem存储，但最后一步cur要变成cur.next.next脑子晕了，没出来
+  # Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def swapPairs(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        dummy_head = ListNode(next = head)
+        cur = dummy_head
+
+        while cur.next and cur.next.next:
+            tem = cur.next
+            tem1 = cur.next.next.next
+            cur.next = cur.next.next
+            tem.next = tem1
+            cur.next.next = tem
+            cur = cur.next.next
+        return dummy_head.next
+
+删除链表倒数第n个：
+          理解快指针要到第n+1个有点问题，
+                  dummy_head = ListNode(0, head)
+
+        fast, slow = dummy_head, dummy_head
+
+        for i in range(n+1):
+            fast = fast.next
+
+        while fast:
+            slow = slow.next
+            fast = fast.next
+
+        slow.next = slow.next.next
+
+        return dummy_head.next
+链表相交：
+          不会，快指针速度是慢指针2倍就打死想不出来，算法思维还是太薄弱了
+          # Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def detectCycle(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        slow = head
+        fast = head
+
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+
+            if slow == fast:
+                slow = head
+                while slow != fast:
+                    slow = slow.next
+                    fast = fast.next
+                return slow
+        return None
