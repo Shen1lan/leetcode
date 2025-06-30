@@ -1,0 +1,70 @@
+想不到要用这种方法，字母异位的时候，里面表示index也搞了一会
+class Solution:
+    def isAnagram(self, s: str, t: str) -> bool:
+        record = [0] * 26
+
+        for i in s:
+            record[ord(i) - ord("a")] += 1
+        for i in t:
+            record[ord(i) - ord("a")] -= 1
+        
+        for i in range(26):
+            if record[i] != 0:
+                return False
+        return True
+数组交集：
+还是用数组了，两个数组来表示字符串
+class Solution:
+    def intersection(self, nums1: List[int], nums2: List[int]) -> List[int]:
+        count1 = [0] * 1001
+        count2 = [0] * 1001
+        res = []
+        for i in range(len(nums1)):
+            count1[nums1[i]] += 1
+        for i in range(len(nums2)):
+            count2[nums2[i]] += 1
+        
+        for k in range(1001):
+            if count1[k] * count2[k] != 0:
+                res.append(k)
+        return res
+
+快乐数：
+这种方法想不到，求每个位置的平方和
+class Solution:
+    def isHappy(self, n: int) -> bool:
+        record = set()
+        
+        while True:
+            n = self.get_sum(n)
+            if n == 1:
+                return True
+
+            if n in record:
+                return False
+            else:
+                record.add(n)
+
+
+
+
+
+
+    def get_sum(self, n: int) -> int:
+        new_sum = 0
+
+        while n:
+            n, r = divmod(n, 10)
+            new_sum += r ** 2
+
+        return new_sum
+两数之和：第一次用enumerate，要两个变量一个下标一个值，适合找下标
+class Solution:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        lookup = set()
+
+        for i, num in enumerate(nums):
+            component = target - num
+            if component in lookup:
+                return [nums.index(component), i]
+            lookup.add(num)
