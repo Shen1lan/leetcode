@@ -1,0 +1,39 @@
+四数相加：
+  之前没怎么用字典，没想到可以一个表示和一个表示出现个数，然后最后count只是等于，没有+=，这样只有最后的结果
+  class Solution:
+    def fourSumCount(self, nums1: List[int], nums2: List[int], nums3: List[int], nums4: List[int]) -> int:
+        hashmap = dict()
+
+        for i in range(len(nums1)):
+            for j in range(len(nums2)):
+                if nums1[i] + nums2[j] not in hashmap:
+                    hashmap[nums1[i] + nums2[j]] = 1
+                else:
+                    hashmap[nums1[i]+ nums2[j]] += 1
+        count = 0
+        for n3 in nums3:
+            for n4 in nums4:
+                if -n3 - n4 in hashmap:
+                    count += hashmap[-n3-n4]
+  赎金：
+          ord不会用。。
+          class Solution:
+    def canConstruct(self, ransomNote: str, magazine: str) -> bool:
+        ransom = [0] * 26
+        magaz = [0] * 26
+        for i in ransomNote:
+            ransom[ord(i) - ord('a')] += 1
+
+        for i in magazine:
+            magaz[ord(i) - ord('a')] += 1
+        
+        for i in range(26):
+            if ransom[i] > magaz[i]:
+                return False
+            
+        return True
+  三数之和，脑子已经转不动了
+  四数之和，一天三道med真累了，直接看答案自己打了一遍
+          
+
+  
