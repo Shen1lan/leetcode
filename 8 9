@@ -1,0 +1,106 @@
+昨天忘记发了，合到一起
+栈和队列好久没学了，只记得原理，有点吃力
+class MyQueue:
+
+    def __init__(self):
+        self.stack_in = []
+        self.stack_out = []
+
+    def push(self, x: int) -> None:
+        self.stack_in.append(x)
+
+    def pop(self) -> int:
+        
+        if self.empty():
+            return None
+        if self.stack_out:
+            return self.stack_out.pop()
+
+        else:
+            for i in range(len(self.stack_in)):
+                self.stack_out.append(self.stack_in.pop())
+            return self.stack_out.pop()
+    def peek(self) -> int:
+        
+        ans = self.pop()
+        self.stack_out.append(ans)
+        return ans
+
+    def empty(self) -> bool:
+        if len(self.stack_in) == 0 and len(self.stack_out) == 0:
+            return True
+        else:
+            return False
+
+  栈化队列：
+  老是忘记调用self里的括号，pop那里的思想好精妙
+  class MyStack:
+
+    def __init__(self):
+        self.que = deque()
+
+    def push(self, x: int) -> None:
+        
+        self.que.append(x)
+
+    def pop(self) -> int:
+        if self.empty():
+            return None
+        
+        for i in range(len(self.que) - 1):
+            self.que.append(self.que.popleft())
+        return self.que.popleft()
+
+    def top(self) -> int:
+        if self.empty():
+            return None
+
+        for i in range(len(self.que) - 1):
+            self.que.append(self.que.popleft())
+
+        temp = self.que.popleft()
+        self.que.append(temp)
+        return temp
+
+    def empty(self) -> bool:
+        if len(self.que) == 0:
+            return True
+        else:
+            return False
+有效括号：
+最后关键那步想不出来，会预想很多情况，但实现不了，然后脑子晕了
+class Solution:
+    def isValid(self, s: str) -> bool:
+        stack = []
+
+        for item in s:
+            if item == '(':
+            
+                stack.append(')')
+            elif item == '[':
+                stack.append(']')
+            elif item == '{':
+                stack.append('}')
+            elif not stack or stack[-1] != item:
+                return False
+            else:
+                stack.pop()
+        
+        if not stack:
+            return True
+        else:
+            return False
+
+  1047:
+  感觉不是很难，但写不出来
+  class Solution:
+    def removeDuplicates(self, s: str) -> str:
+        res = list()
+
+        for item in s:
+            if res and res[-1] == item:
+                res.pop()
+            else:
+                res.append(item)
+        
+        return "".join(res)关键部分总是想不清楚
