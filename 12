@@ -1,0 +1,60 @@
+好像养成个习惯直接看答案，很不好
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def isSymmetric(self, root: Optional[TreeNode]) -> bool:
+        if not root:
+            return True
+        return self.compare(root.left, root.right)
+
+    def compare(self, left, right):
+        if left == None and right != None:
+            return False
+        elif left != None and right == None:
+            return False
+        elif left == None and right == None:
+            return True
+        elif left.val != left.val:
+            return False
+
+        outside = self.compare(left.left, right.right)
+        inside = self.compare(left.right, right.left)
+        issame = outside and inside
+        return issame
+
+对类掌握的不好,判断levels和level相等这里来构建空列表想不到
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def minDepth(self, root: Optional[TreeNode]) -> int:
+        if not root:
+            return 0
+
+        levels = []
+
+        def dfs(node, level):
+
+            if len(levels) == level:
+                levels.append([])
+
+            levels[level].append(node)
+            
+            if node.left:
+                dfs(node.left, level + 1)
+            if node.right:
+                dfs(node.right, level + 1)
+
+        dfs(root, 0)
+
+        for i, node in enumerate(levels):
+            for k in node:
+                if not k.left and not k.right:
+                    return i + 1
