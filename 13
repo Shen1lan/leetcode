@@ -1,0 +1,93 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def isBalanced(self, root: Optional[TreeNode]) -> bool:
+        if self.getheight(root) != -1:
+            return True
+        else:
+            return False
+
+
+    def getheight(self, root):
+        if not root:
+            return 0
+
+        leftheight = self.getheight(root.left)
+        if leftheight == -1:
+            return -1
+
+        rightheight = self.getheight(root.right)
+        if rightheight == -1:
+            return -1
+
+        if abs(leftheight - rightheight) > 1:
+            return -1
+        
+        else:
+            return 1 + max(leftheight, rightheight)
+求的是高度，从下往上算，所以后序遍历，然后找到每层高度差，最大为-1，然后上面判断是否-1
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def binaryTreePaths(self, root: Optional[TreeNode]) -> List[str]:
+        result = []
+        path = []
+        if not root:
+            return result
+        self.traversal(root, path, result)
+        return result
+
+
+    def traversal(self, cur, path, result):
+        path.append(cur.val)
+
+        if not cur.left and not cur.right:
+            sPath = '->'.join(map(str, path))
+            result.append(sPath)
+            return 
+        if cur.left:
+            self.traversal(cur.left, path, result)
+            path.pop()
+        if cur.right:
+            self.traversal(cur.right, path, result)
+            path.pop()
+          回述第一次见到，有两个path来保存
+        路径构建	前序遍历	当前节点在路径中，走一步存一步
+结构分析 / 比较	前序或后序	根据你是“先看根”还是“先看子”
+高度、平衡判断	后序遍历	要先得到左右子树的信息
+按层处理	层序遍历	一层一层，适合最短路径、广度优先
+BST 排序输出	中序遍历	BST 中序 = 升序
+表达式生成	前序 / 后序	表达式树前缀 / 后缀形式
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def sumOfLeftLeaves(self, root: Optional[TreeNode]) -> int:
+        if not root:
+            return 0
+
+        st = [root]
+        result = 0
+        while st:
+            node = st.pop()
+            if node.left and not node.left.left and not node.left.right:
+                result += node.left.val
+            if node.right:
+                st.append(node.right)
+            if node.left:
+                st.append(node.left)
+
+        return result    迭代比递归简单好多
+        
