@@ -1,0 +1,57 @@
+树左下角的值：
+层序遍历秒了
+路径总和：
+迭代法简单，其实也是递归
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def hasPathSum(self, root: Optional[TreeNode], targetSum: int) -> bool:
+        if not root:
+            return False
+        
+        st = [(root, root.val)]
+        while st:
+            node, pathsum = st.pop()
+
+            if not node.left and not node.right and pathsum == targetSum:
+                return True
+            
+            if node.right:
+                st.append((node.right, pathsum + node.right.val))
+            
+            if node.left:
+                st.append((node.left, pathsum + node.left.val))
+
+            
+        return False
+原理不知道，代码也不知道怎么构造递归。。
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def buildTree(self, inorder: List[int], postorder: List[int]) -> Optional[TreeNode]:
+        # 后序为空终止条件
+        if not postorder:
+            return None
+        # 后序最后一个为根节点
+        root_val = postorder[-1]
+        root = TreeNode(root_val)
+        # 切割中序根据根节点，
+        sep_point = inorder.index(root_val)
+        sep_left = inorder[:sep_point]
+        sep_right = inorder[sep_point + 1:]
+        # 切割后序根据切割中序
+        pos_left = postorder[:len(sep_left)]
+        pos_right = postorder[len(sep_left):len(postorder)-1]
+        # 递归
+        root.left = self.buildTree(sep_left, pos_left)
+        root.right = self.buildTree(sep_right, pos_right)
+
+        return root
