@@ -1,0 +1,67 @@
+最大二叉树，好像思路清楚了点
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def constructMaximumBinaryTree(self, nums: List[int]) -> Optional[TreeNode]:
+        if len(nums) == 1:
+            return TreeNode(nums[0])
+
+        node = TreeNode(0)
+        # 找到最大值和下标
+        maxval = 0
+        maxval_index = 0
+        for i in range(len(nums)):
+            if nums[i] > maxval:
+                maxval = nums[i]
+                maxval_index = i
+        node.val = maxval
+        # 最大值左边，递归
+        if maxval_index > 0:
+            new_left = nums[:maxval_index]
+            node.left = self.constructMaximumBinaryTree(new_left)
+        # 最大值右边，递归
+        if maxval_index < len(nums)-1:
+            new_right = nums[maxval_index + 1:]
+            node.right = self.constructMaximumBinaryTree(new_right)
+
+        return node
+合并两个二叉树递归更简单
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def mergeTrees(self, root1: Optional[TreeNode], root2: Optional[TreeNode]) -> Optional[TreeNode]:
+        if not root1:
+            return root2
+        if not root2:
+            return root1
+
+        root1.val += root2.val
+
+        root1.left = self.mergeTrees(root1.left, root2.left)
+        root1.right = self.mergeTrees(root1.right, root2.right)
+
+        return root1
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def searchBST(self, root: Optional[TreeNode], val: int) -> Optional[TreeNode]:
+        if not root or root.val == val:
+            return root
+
+        if root.val > val:
+            return self.searchBST(root.left, val)
+
+        if root.val < val:
+            return self.searchBST(root.right, val)关键是返回条件需要判断
