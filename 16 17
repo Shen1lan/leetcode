@@ -1,0 +1,46 @@
+二叉搜索树最小绝对差
+递归+数组判断
+class Solution:
+    def __init__(self):
+        self.vec = []
+
+    def traverse(self,root):
+        if not root:
+            return 
+
+        self.traverse(root.left)
+        self.vec.append(root.val)
+        self.traverse(root.right)
+    def getMinimumDifference(self, root: Optional[TreeNode]) -> int:
+        self.vec = []
+        self.traverse(root)
+        if len(self.vec) < 2:
+            return 0
+        res = float('inf')
+        for i in range(1, len(self.vec)):
+            diff = self.vec[i] - self.vec[i-1]
+            if res > diff:
+                res = diff
+        return res
+
+二叉树的公共祖先：
+想到了后序但终止条件没想到，后面的是不是none来确定公共祖先也没想到
+class Solution:
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        if root == p or root == q or not root:
+            return root
+
+        self.lowestCommonAncestor(root.left, p, q)
+        self.lowestCommonAncestor(root.right, p, q)
+
+        if left is not None and right is not None:
+            return root
+
+        if left is None and right is not None:
+            return right
+        elif left is not None and right is None:
+            return left
+        else: 
+            return None 
+
+搜索书祖先：感觉也没有很简单
