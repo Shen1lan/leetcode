@@ -1,0 +1,92 @@
+剪枝：不会
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def trimBST(self, root: Optional[TreeNode], low: int, high: int) -> Optional[TreeNode]:
+        # 空树：
+        if not root:
+            return None
+        # 让根节点移动到合适的范围
+        while root and (root.val < low or root.val > high):
+            if root.val < low:
+                root = root.right
+            else:
+                root = root.left
+        cur = root
+        # 对根合适的左边修剪
+        while cur:
+            while cur.left and cur.left.val < low:
+                cur.left = cur.left.right
+            cur = cur.left
+
+        # 对右边修剪
+        cur = root
+        while cur:
+            while cur.right and cur.right.val > high:
+                cur.right = cur.right.left
+            cur = cur.right
+
+        return root
+108直接切片：# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def sortedArrayToBST(self, nums: List[int]) -> Optional[TreeNode]:
+        if not nums:
+            return None
+        mid = len(nums)//2
+        root = TreeNode(nums[mid])
+        root.left = self.sortedArrayToBST(nums[:mid])
+        root.right = self.sortedArrayToBST(nums[mid+1:])
+        return root
+
+538:倒着遍历的，没想到
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def convertBST(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
+        self.pre = 0
+        self.traversal(root)
+        return root
+
+    def traversal(self, cur):
+        if not cur:
+            return None
+
+        self.traversal(cur.right)
+        cur.val += self.pre
+        self.pre = cur.val
+        self.traversal(cur.left)
+701:思路想出来了，终于搞明白什么时候root.left什么时候直接self
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def insertIntoBST(self, root: Optional[TreeNode], val: int) -> Optional[TreeNode]:      
+        if not root:
+        
+            return TreeNode(val)
+
+        if root.val > val:
+            root.left = self.insertIntoBST(root.left, val)
+        else:
+            root.right = self.insertIntoBST(root.right, val)
+
+        return root
+| 你是遍历子节点、只是访问 | → 直接 self.xxx(...) 就行 |
+| 你是插入/删除/修剪树结构 | → 必须 root.left = self.xxx(...) |
+| 你是构造/替代整个结构 | → 可以 return self.xxx(...) |
