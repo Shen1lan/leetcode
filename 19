@@ -1,0 +1,76 @@
+最后的for横向遍历，递归纵向遍历想不到，判断的时候晕了好久
+class Solution:
+    def combine(self, n: int, k: int) -> List[List[int]]:
+        result = []
+        self.back(n, k, 1, [], result)
+        return result
+
+    def back(self, n, k, startindex, path, result):
+
+        if len(path) == k:
+            result.append(path[:])
+            return
+
+        for i in range(startindex, n+1):
+            path.append(i)
+            self.back(n, k, i+1, path, result)
+            path.pop()
+
+  好难，又卡在横纵了class Solution:
+    def combinationSum3(self, k: int, n: int) -> List[List[int]]:
+        res = []
+        self.back(n, k, 0, 1, [], res)
+        return res
+
+    def back(self, n, k, cursum, startindex, path, res):
+        if cursum>n:
+            return
+
+        if len(path) == k:
+            if cursum == n:
+                res.append(path[:])
+            return
+
+        for i in range(startindex, 10):
+            cursum += i
+            path.append(i)
+            
+            self.back(n, k, cursum, i+1, path, res)
+            cursum -= i
+            path.pop()
+
+  电话：
+  class Solution:
+    def __init__(self):
+        self.letterMap = [
+            "",     # 0
+            "",     # 1
+            "abc",  # 2
+            "def",  # 3
+            "ghi",  # 4
+            "jkl",  # 5
+            "mno",  # 6
+            "pqrs", # 7
+            "tuv",  # 8
+            "wxyz"  # 9
+        ]
+        self.result = []
+        self.s = ""
+    def letterCombinations(self, digits: str) -> List[str]:
+        if len(digits) == 0:
+            return self.result
+        self.back(digits, 0)
+        return self.result
+
+    def back(self, digits, index):
+        if index == len(digits):
+            self.result.append(self.s)
+            return
+        digit = int(digits[index])
+        letters = self.letterMap[digit]
+
+
+        for i in range(len(letters)):
+            self.s += letters[i]
+            self.back(digits, index +1)
+            self.s = self.s[:-1]有了组合基础好理解一点，就是最开始初始化不会
