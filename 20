@@ -1,0 +1,59 @@
+组合总和简单，就是i不需要+1就完事
+组合总和2难理解，怎么排除相同类型的，是通过同一层的去掉，一直不理解
+class Solution:
+    def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:
+        res = []
+        candidates.sort()
+        self.back(candidates, target, 0, 0, [], res)
+        return res
+
+    def back(self, candidates, target, total, start, path, res):
+        if total == target:
+            res.append(path[:])
+            return
+
+        for i in range(start, len(candidates)):
+            if i > start and candidates[i] == candidates[i-1]:
+                continue
+
+            if total + candidates[i] > target:
+                break
+            total += candidates[i]
+            path.append(candidates[i])
+            self.back(candidates, target, total, i + 1, path, res)
+            total -= candidates[i]
+            path.pop()
+
+  回文：横向判断切多大，纵向继续切下去，然后横向用新的函数判断是否要继续切在这基础上，感觉好像难度还好，比较好理解，虽然想不到，知道了break和return的区别，break直接跳出当前循环，return直接跳出递归但还不理解
+  大概结构就是if然后下面for判断，递归的参数和种植条件已经明白了，单次搜索逻辑还不太明白
+  class Solution:
+    def partition(self, s: str) -> List[List[str]]:
+        res = []
+        self.back(s, 0, [],res)
+        return res
+
+    def back(self, s, start, path, res):
+        if start == len(s):
+            res.append(path[:])
+            return
+
+        for i in range(start, len(s)):
+            if self.ispa(s, start, i):
+                path.append(s[start:i+1])
+                self.back(s, i+1, path, res)
+                path.pop()
+
+
+
+
+    def ispa(self, s, start, end):
+        i: int = start
+        j: int = end
+
+        while i < j:
+            if s[i]!=s[j]:
+                return False
+
+            i += 1
+            j -= 1
+        return True
