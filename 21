@@ -1,0 +1,80 @@
+地址有具体的切割点，而且判断条件也很多，最后的终止条件根据切割点判断最后一块好巧妙
+class Solution:
+    def restoreIpAddresses(self, s: str) -> List[str]:
+        res = []
+        self.back(s, 0, 0, '', res)
+        return res
+
+    def back(self, s, startindex, point, cur, res):
+        # 判断最后一部分是否合法，合法则加入结果
+        if point == 3:
+            if self.isva(s, startindex, len(s)-1):
+                cur += s[startindex:]
+                res.append(cur)
+
+            return
+
+        for i in range(startindex, len(s)):
+            if self.isva(s, startindex, i):
+                sub = s[startindex:i+1]
+                self.back(s, i+1, point +1, cur + sub + '.', res)
+            else:
+                break
+
+
+
+
+    def isva(self,s, start, end):
+        # 空字符串
+        if start > end:
+            return False
+
+        # 第一个是0
+        if s[start] == '0' and start != end:
+            return False
+        # 大于255
+        num = 0
+        for i in range(start, end +1):
+            if not s[i].isdigit():  # 遇到非数字字符不合法
+                return False
+            num = num*10 + int(s[i])
+
+            if num > 255:
+                return False
+
+        return True
+78:还比较顺利，除了最后的直接path添加到res防止丢失没想到，
+class Solution:
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        res = []
+        self.back(nums, 0, [], res)
+        return res
+
+
+    def back(self, nums, start, path, res):
+        res.append(path[:])
+
+        for i in range(start, len(nums)):
+            path.append(nums[i])
+            self.back(nums, i+1, path, res)
+            path.pop()
+
+  90:
+  同一层去掉防止重复还没想到
+  class Solution:
+    def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:
+        res = []
+        nums.sort()
+        self.back(nums, 0, [], res)
+        return res
+
+    def back(self, nums, start, path, res):
+
+        res.append(path[:])
+
+        for i in range(start, len(nums)):
+            if i > start and nums[i] == nums[i-1]:
+                continue
+            path.append(nums[i])
+            self.back(nums, i +1, path, res)
+            path.pop()
