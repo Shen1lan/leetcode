@@ -1,0 +1,40 @@
+455:
+没固定模板只有思想class Solution:
+    def findContentChildren(self, g: List[int], s: List[int]) -> int:
+        g.sort()
+        s.sort()
+        index = 0
+        for i in range(len(s)):
+            if index < len(g) and g[index] <= s[i]:
+                index += 1
+
+        return index
+
+376:
+class Solution:
+    def wiggleMaxLength(self, nums: List[int]) -> int:
+        pre = 0
+        cur = 0
+        res = 1
+        for i in range(len(nums)-1):
+            cur = nums[i+1] - nums[i]
+            if (pre <= 0 and cur > 0) or (pre >= 0 and cur < 0):
+                res += 1
+                pre = cur
+
+        return res
+最后pre和cur转换总感觉不太理解
+53:
+class Solution:
+    def maxSubArray(self, nums: List[int]) -> int:
+        cur = 0
+        res = 0
+        for i in range(len(nums)):
+            cur += nums[i]
+            if cur > res:
+                res = cur
+
+            if cur < 0:
+                cur = 0
+
+        return res
