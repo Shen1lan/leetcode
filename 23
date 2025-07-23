@@ -1,0 +1,53 @@
+加油站：
+这个贪心思维是没想到的
+class Solution:
+    def canCompleteCircuit(self, gas: List[int], cost: List[int]) -> int:
+        start = 0
+        cursum = 0
+        totsum = 0
+
+        for i in range(len(gas)):
+            cursum += gas[i]- cost[i]
+            totsum += gas[i]- cost[i]
+
+            if cursum < 0:
+                start = i + 1
+                cursum = 0
+
+        if totsum < 0:
+            return -1
+
+        return start
+
+柠檬水：
+class Solution:
+    def lemonadeChange(self, bills: List[int]) -> bool:
+        five = 0
+        ten = 0
+        fif = 0
+
+        for bill in bills:
+            if bill == 5:
+                five += 1
+
+            if bill == 10:
+                if five == 0:
+                    return False
+                else:
+                    ten += 1
+                    five -= 1
+
+            if bill == 20:
+                if five > 0 and ten > 0:
+                    five -= 1
+                    ten -= 1
+                    fif += 1
+
+                elif five >= 3:
+                    five -= 3
+                    fif += 1
+
+                else:
+                    return False
+
+        return True
