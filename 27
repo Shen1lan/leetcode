@@ -1,0 +1,51 @@
+斐波纳西：经典题目
+class Solution:
+    def fib(self, n: int) -> int:
+        if n == 0:
+            return 0
+
+        dp = [0] * (n+1)
+        dp[0] = 0
+        dp[1] = 1
+        for i in range(2, n+1):
+            dp[i] = dp[i-1] + dp[i-2]
+
+        return dp[n]
+
+        重要的是按动归五部曲来：确定定义，递推公式，初始化，遍历顺序
+
+70:class Solution:
+    def climbStairs(self, n: int) -> int:
+        if n <= 1:
+            return n
+
+        定义
+        dp = [0] * (n+1)
+        初始化
+        dp[1] = 1
+        dp[2] = 2
+        递推公式
+        for i in range(3, n+1):
+            dp[i] = dp[i-2]+ dp[i-1]
+
+        return dp[n]
+        有点不理解递推公式那里
+
+764:
+class Solution:
+    def minCostClimbingStairs(self, cost: List[int]) -> int:
+        # 定义
+        dp = [0] * (len(cost)+1)
+
+        # 初始化
+        dp[0] = 0
+        dp[1] = 0
+
+        # 递推公式遍历
+        for i in range(2, len(cost)+1):
+            dp[i] = min(dp[i-1] + cost[i-1], dp[i-2] + cost[i-2])
+
+        return dp[len(cost)]每次都是递推公式有点不明白
+
+
+
