@@ -1,0 +1,30 @@
+股票买卖：还比较好理解，递推公式和初始化都考虑清楚才行
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        if len(prices) == 0:
+            return 0
+
+        dp = [[0]*2 for _ in range(len(prices))]
+        dp[0][0] = -prices[0]
+        dp[0][1] = 0
+
+        for i in range(1, len(prices)):
+            dp[i][0] = max(dp[i-1][0], -prices[i])
+            dp[i][1] = max(dp[i-1][1], dp[i-1][0]+ prices[i])
+
+        return dp[-1][1]
+股票2:
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        if len(prices) == 0:
+            return 0
+
+        dp= [[0] * 2 for _ in range(len(prices))]
+        dp[0][0] = -prices[0]
+        dp[0][1] = 0
+
+        for i in range(1, len(prices)):
+            dp[i][0] = max(dp[i-1][0], dp[i-1][1]- prices[i])
+            dp[i][1] = max(dp[i-1][1], dp[i-1][0] + prices[i])
+
+        return dp[-1][1]居然之前做过，这个就是要考虑买进的时候之前有没有现金
