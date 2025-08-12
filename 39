@@ -1,0 +1,57 @@
+739单调栈：
+单调栈来判断站定的情况，有点精妙
+class Solution:
+    def dailyTemperatures(self, temperatures: List[int]) -> List[int]:
+        ans = [0] * len(temperatures)
+        stack = [0]
+
+        for i in range(1, len(temperatures)):
+            if temperatures[i] <= temperatures[stack[-1]]:
+                stack.append(i)
+
+            else:
+                while len(stack) != 0 and temperatures[i] > temperatures[stack[-1]]:
+                    ans[stack[-1]] = i - stack[-1]
+                    stack.pop()
+
+                stack.append(i)
+
+        return ans
+
+496:
+class Solution:
+    def nextGreaterElement(self, nums1: List[int], nums2: List[int]) -> List[int]:
+        ans = [-1] * len(nums1)
+        stack = [0]
+
+        for i in range(1, len(nums2)):
+            if nums2[i] <= nums2[stack[-1]]:
+                stack.append(i)
+
+            else:
+                while len(stack) != 0 and nums2[i] > nums2[stack[-1]]:
+                    if nums2[stack[-1]] in nums1:
+                        index = nums1.index(nums2[stack[-1]])
+                        ans[index] = nums2[i]
+
+                    stack.pop()
+
+                stack.append(i)
+
+        return ans和我思路不太一样，居然是在最后判断在不在，在的话就直接找到对应的添加
+
+503:
+class Solution:
+    def nextGreaterElements(self, nums: List[int]) -> List[int]:
+        dp = [-1] * len(nums)
+        stack = []
+
+        for i in range(2* len(nums)):
+            while len(stack) != 0 and nums[i%len(nums)] > nums[stack[-1]]:
+                dp[stack[-1]] = nums[i%(len(nums))]
+
+                stack.pop()
+
+            stack.append(i%len(nums))
+
+        return dp和739很像就是两个列表来查找，然后下标改一下
