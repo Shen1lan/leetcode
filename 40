@@ -1,0 +1,52 @@
+接雨水：暴力简单
+class Solution:
+    def trap(self, height: List[int]) -> int:
+        res = 0
+        for i in range(1, len(height)-1):
+            lh = height[i-1]
+            rh = height[i+1]
+
+            for j in range(0, i-1):
+                if height[j] > lh:
+                    lh = height[j]
+
+            for k in range(i+2, len(height)):
+                if height[k] > rh:
+                    rh = height[k]
+
+            res1 = min(rh, lh) - height[i]
+
+            if res1 > 0:
+                res += res1
+
+        return res
+
+
+柱状图：
+class Solution:
+    def largestRectangleArea(self, heights: List[int]) -> int:
+        size = len(heights)
+
+        minlindex = [0] * size
+        minrindex = [0] * size
+
+        res = 0
+        minlindex[0] = -1
+        for i in range(1,  size):
+            temp = i-1
+            while temp >= 0 and heights[temp] >= heights[i]:
+                temp = minlindex[temp]
+
+            minlindex[i] = temp
+        minrindex[size-1] = size
+        for i in range(size-2, -1, -1):
+            temp = i+1
+            while temp < size and heights[temp] >= heights[i]:
+                temp = minrindex[temp]
+            minrindex[i] = temp
+
+        for i in range(size):
+            area = heights[i] * (minrindex[i] - minlindex[i] - 1)
+            res = max(res, area)
+
+        return res左右两边的转换晕了，然后最后边界情况判断来拿到面积没想到
